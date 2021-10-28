@@ -7,6 +7,11 @@ def render(data):
 	st.write("#### Objective ")
 	one, two, three, four = st.columns(4)
 	gender = one.radio("Gender",('Male','Female'))
+	gender = 2 if gender == 'Male'else 1
+
+	one.write(gender)
+
+
 	age = two.slider("Age",5,100,20,1)
 	height = three.slider("Height in cm",100,300,160,1)
 	weight = four.slider("Weight in kg",20.0,150.0,50.0,0.1)
@@ -28,4 +33,16 @@ def render(data):
 		pass
 	
 	st.subheader("Calculated Risks")
-	st.write("... Blank ...")
+	BMI = weight/(height/100)**2
+	if BMI < 18.5:
+		obesity = "Underweight"
+	elif BMI < 25:
+		obesity = "Healthy"
+	elif BMI < 30:
+		obesity = "Overweight"
+	else:
+		obesity = "Obese"
+	st.write("Your BMI is: ",round(BMI,1))
+	st.write("According to BMI value, you are ", obesity)
+
+	

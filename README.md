@@ -9,3 +9,10 @@ The files that render the webpage
 The data files
 - cardio_train.csv : Downloaded from Kaggle, `:` separated
 - Description.txt : Data description
+
+
+To run the streamlit library, install streamlit library
+`pip install streamlit`
+
+In the command prompt (Windows) or Bash (Linux), run the command
+`streamlit run Main.py`
