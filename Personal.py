@@ -1,5 +1,11 @@
 import streamlit as st
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.model_selection import train_test_split
 
+tree = DecisionTreeClassifier(max_depth = 5)
+
+
+@st.cache
 def render(data):
 	st.header("Personal Diagnosis")
 	st.write("Please enter the relevant information")
@@ -45,4 +51,3 @@ def render(data):
 	st.write("Your BMI is: ",round(BMI,1))
 	st.write("According to BMI value, you are ", obesity)
 
-	
