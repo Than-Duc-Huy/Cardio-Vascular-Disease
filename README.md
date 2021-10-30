@@ -3,23 +3,22 @@
 This is the Streamlit python program of group 8
 
 
-The files that render the webpage (**In progress**)
+The files that render the webpage
 - Main.py : Main page 
-- Personal.py : Render "Personal Diagnosis" Page
-- Population.py: Render "Population Statistics Page
-- Model.py: Render "Model Exploration" Page
+
 
 
 The data files
 - cardio_train.csv : Downloaded from Kaggle, `:` separated
 - Description.txt : Data description
 - data.csv: Cleaned data file
+- databmi.csv: Cleaned with bmi
 
 
 The notebook files
 - Clean_Explore.ipynb : Clean, Explore, Export clean data
 - Clustering_BMI.ipynb : Explore Clustering and BMI 
-- Model_Exploration.ipynb : Model exploration (**In progress**)
+- Model_Exploration.ipynb : Model exploration
 
 
 To run the streamlit library, install streamlit library
