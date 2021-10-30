@@ -9,7 +9,7 @@ The files that render the webpage
 
 
 The data files
-- cardio_train.csv : Downloaded from Kaggle, `:` separated
+- cardio_train.csv : Downloaded from Kaggle, `;` separated
 - Description.txt : Data description
 - data.csv: Cleaned data file
 - databmi.csv: Cleaned with bmi
