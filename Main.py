@@ -5,7 +5,6 @@ from sklearn.tree import DecisionTreeClassifier
 
 tree = DecisionTreeClassifier(max_depth = 5)
 
-st.header("EE0005 DSAI Group 8")
 st.header("Cardiovascular disease risk diagnosis")
 
 @st.cache
@@ -15,11 +14,6 @@ def loaddata():
 
 data = loaddata()
 
-st.write("Please enter the relevant information")
-
-
-
-st.write("#### Objective ")
 one, two, three, four = st.columns(4)
 gender = one.radio("Gender",('Male','Female'))
 gender = 2 if gender == 'Male'else 1
@@ -30,7 +24,6 @@ age = two.slider("Age",5,100,20,1)
 height = three.slider("Height in cm",100,300,160,1)
 weight = four.slider("Weight in kg",20.0,150.0,50.0,0.1)
 
-st.write("#### Subjective")
 one2, two2, three2 = st.columns(3)
 smoke = one2.radio("Do you smoke?", ('Yes','No'))
 smoke = 1 if smoke == 'Yes' else 0
@@ -86,16 +79,16 @@ person = pd.DataFrame({"age": [age],"gender": [gender],"height": [height],"weigh
 
 
 
-st.write("Your profile")
+# st.write("Your profile")
 if exam == 'Yes':
-	st.table(person)
+	# st.table(person)
 	data_X = data.drop(columns = "cardio")
 
 else :
 	exam_var = ["ap_hi","ap_lo","cholesterol","gluc"]
 	data = data.drop(columns = exam_var)
 	person = person.drop(columns = exam_var)
-	st.table(person)	
+	# st.table(person)	
 
 data_X = data.drop(columns = "cardio")
 data_Y = data["cardio"]
