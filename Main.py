@@ -2,17 +2,43 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 from sklearn.tree import DecisionTreeClassifier
+import matplotlib.pyplot as plt
+import plotly.express as px
 
 tree = DecisionTreeClassifier(max_depth = 5)
 
+
 st.header("Cardiovascular disease risk diagnosis")
 
+@st.cache(hash_funcs = {dict: lambda _: None})
+def get_plotlist():
+	x_val = np.arange(0,300)
+	plotlist = {}
+	plotlist["init"], plotlist["ax"] = plt.subplots(1,figsize = (20,10))
+	plotlist["data"] = plt.scatter(x = "weight",y = "height", c = "grey", data = data, label = "")
+	plotlist["under"] = plt.plot(x_val,np.sqrt(x_val/18.5)*100, c = "orange", label = "BMI = 18.5")
+	plotlist["normal"] = plt.plot(x_val,np.sqrt(x_val/25)*100, c = "green", label = "BMI = 25")
+	plotlist["over"] = plt.plot(x_val,np.sqrt(x_val/30)*100, c = "blue", label = "BMI = 30")
+	plotlist["xlim"] = plt.xlim([0, data["weight"].max()])
+	plotlist["ylim"] = plt.ylim([0,data["height"].max()])
+	plotlist["title"] = plt.title("Height against Weight (BMI segmentation)")
+	plotlist["legend"] = plt.legend(fontsize = "x-large")
+	plotlist["y"] = plt.plot(x_val*0,x_val)
+	return plotlist
 @st.cache
 def loaddata():
 	data = pd.read_csv('databmi.csv')
 	return data
 
 data = loaddata()
+
+if 'weight' not in st.session_state:
+	st.session_state['weight'] = data.iloc[1]["weight"]
+if 'height' not in st.session_state:
+	st.session_state['height'] = data.iloc[1]["height"]
+
+plot = get_plotlist()
+plot["ax"].scatter(x = st.session_state["weight"], y = st.session_state["height"], c = "grey")
 
 one, two, three, four = st.columns(4)
 gender = one.radio("Gender",('Male','Female'))
@@ -23,6 +49,9 @@ one.write(gender)
 age = two.slider("Age",5,100,20,1)
 height = three.slider("Height in cm",100,300,160,1)
 weight = four.slider("Weight in kg",20.0,150.0,50.0,0.1)
+
+st.session_state["weight"] = weight
+st.session_state["height"] = height
 
 one2, two2, three2 = st.columns(3)
 smoke = one2.radio("Do you smoke?", ('Yes','No'))
@@ -75,7 +104,40 @@ else:
 st.write("According to your BMI of ",round(BMI,1), ", you are ", obesity)
 obesity = 0 if obesity == "Underweight" else (1 if obesity == "Healthy" else(2 if obesity =="Overweight" else 3))
 
+# @st.cache
+# def plotbmi(data):
+# 	bmi = data["BMI"]
+# 	figure = plt.figure(figsize = (20,10))
+
+# 	plt.scatter(x = "weight",y = "height", c = "grey", data = data, label = "")
+# 	x_val = np.arange(0,300)
+# 	# plt.plot(x_val,np.sqrt(x_val/bmi.min())*100, c = "red", label = "BMI = "+str(round(bmi.min(),1)))
+# 	plt.plot(x_val,np.sqrt(x_val/18.5)*100, c = "orange", label = "BMI = 18.5")
+# 	plt.plot(x_val,np.sqrt(x_val/25)*100, c = "green", label = "BMI = 25")
+# 	plt.plot(x_val,np.sqrt(x_val/30)*100, c = "blue", label = "BMI = 30")
+# 	# plt.plot(x_val,np.sqrt(x_val/bmi.max())*100, c = "purple", label = "BMI = "+str(round(bmi.max(),1)))
+
+# 	plt.xlim([0, data["weight"].max()])
+# 	plt.ylim([0,data["height"].max()])
+# 	plt.title("Height against Weight (BMI segmentation)")
+# 	plt.legend(fontsize = "x-large")
+# 	return figure
+
+# figure = plotbmi(data)
+# # plt.scatter(x = weight, y = height, c = "red")
+# st.pyplot(figure)
+
+
+
+plot["ax"].scatter(x = weight, y = height, color = "red")
+st.pyplot(plot["init"])
+
+
+
+
 person = pd.DataFrame({"age": [age],"gender": [gender],"height": [height],"weight": [weight],"ap_hi": [systolic],"ap_lo": [diastolic],"cholesterol": [cholesterol],"gluc": [glucose],"smoke": [smoke],"alco": [alcohol],"active": [active],"BMI": [BMI],"Obesity": [obesity]})
+
+
 
 
 
