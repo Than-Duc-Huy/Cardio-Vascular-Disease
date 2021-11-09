@@ -1,44 +1,23 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-from sklearn.tree import DecisionTreeClassifier
+from sklearn.ensemble import RandomForestClassifier
 import matplotlib.pyplot as plt
 import plotly.express as px
 
-tree = DecisionTreeClassifier(max_depth = 5)
+
 
 
 st.header("Cardiovascular disease risk diagnosis")
 
-@st.cache(hash_funcs = {dict: lambda _: None})
-def get_plotlist():
-	x_val = np.arange(0,300)
-	plotlist = {}
-	plotlist["init"], plotlist["ax"] = plt.subplots(1,figsize = (20,10))
-	plotlist["data"] = plt.scatter(x = "weight",y = "height", c = "grey", data = data, label = "")
-	plotlist["under"] = plt.plot(x_val,np.sqrt(x_val/18.5)*100, c = "orange", label = "BMI = 18.5")
-	plotlist["normal"] = plt.plot(x_val,np.sqrt(x_val/25)*100, c = "green", label = "BMI = 25")
-	plotlist["over"] = plt.plot(x_val,np.sqrt(x_val/30)*100, c = "blue", label = "BMI = 30")
-	plotlist["xlim"] = plt.xlim([0, data["weight"].max()])
-	plotlist["ylim"] = plt.ylim([0,data["height"].max()])
-	plotlist["title"] = plt.title("Height against Weight (BMI segmentation)")
-	plotlist["legend"] = plt.legend(fontsize = "x-large")
-	plotlist["y"] = plt.plot(x_val*0,x_val)
-	return plotlist
 @st.cache
 def loaddata():
 	data = pd.read_csv('databmi.csv')
 	return data
 
+
+
 data = loaddata()
-
-if 'weight' not in st.session_state:
-	st.session_state['weight'] = data.iloc[1]["weight"]
-if 'height' not in st.session_state:
-	st.session_state['height'] = data.iloc[1]["height"]
-
-plot = get_plotlist()
-plot["ax"].scatter(x = st.session_state["weight"], y = st.session_state["height"], c = "grey")
 
 one, two, three, four = st.columns(4)
 gender = one.radio("Gender",('Male','Female'))
@@ -104,62 +83,59 @@ else:
 st.write("According to your BMI of ",round(BMI,1), ", you are ", obesity)
 obesity = 0 if obesity == "Underweight" else (1 if obesity == "Healthy" else(2 if obesity =="Overweight" else 3))
 
-# @st.cache
-# def plotbmi(data):
-# 	bmi = data["BMI"]
-# 	figure = plt.figure(figsize = (20,10))
 
-# 	plt.scatter(x = "weight",y = "height", c = "grey", data = data, label = "")
-# 	x_val = np.arange(0,300)
-# 	# plt.plot(x_val,np.sqrt(x_val/bmi.min())*100, c = "red", label = "BMI = "+str(round(bmi.min(),1)))
-# 	plt.plot(x_val,np.sqrt(x_val/18.5)*100, c = "orange", label = "BMI = 18.5")
-# 	plt.plot(x_val,np.sqrt(x_val/25)*100, c = "green", label = "BMI = 25")
-# 	plt.plot(x_val,np.sqrt(x_val/30)*100, c = "blue", label = "BMI = 30")
-# 	# plt.plot(x_val,np.sqrt(x_val/bmi.max())*100, c = "purple", label = "BMI = "+str(round(bmi.max(),1)))
-
-# 	plt.xlim([0, data["weight"].max()])
-# 	plt.ylim([0,data["height"].max()])
-# 	plt.title("Height against Weight (BMI segmentation)")
-# 	plt.legend(fontsize = "x-large")
-# 	return figure
-
-# figure = plotbmi(data)
-# # plt.scatter(x = weight, y = height, c = "red")
-# st.pyplot(figure)
+if "graph" not in st.session_state:
+	if "ax" not in st.session_state:
+		st.session_state.graph, st.session_state.ax = plt.subplots(1,figsize = (20,10))
+		st.session_state.ax.scatter(x = "weight",y = "height", c = "grey", data = data, label = "")
+		x_val = np.arange(0,300)
+		bmi18 = st.session_state.ax.plot(x_val,np.sqrt(x_val/18.5)*100, c = "orange", label = "BMI = 18.5")
+		bmi25 = st.session_state.ax.plot(x_val,np.sqrt(x_val/25)*100, c = "green", label = "BMI = 25")
+		bmi30 = st.session_state.ax.plot(x_val,np.sqrt(x_val/30)*100, c = "blue", label = "BMI = 30")
+		st.session_state.ax.set_xlim([0, data["weight"].max()])
+		st.session_state.ax.set_ylim([0, data["height"].max()])
+		st.session_state.graph.legend(prop = {'size': 20})
 
 
+st.session_state.ax.scatter(x = weight, y = height, color = "red")
+with st.spinner("Plotting BMI Graph ..."):
+	st.pyplot(st.session_state.graph)
 
-plot["ax"].scatter(x = weight, y = height, color = "red")
-st.pyplot(plot["init"])
+
+st.session_state.ax.scatter(x = weight, y = height, color = "gray")
+
+
+person = pd.DataFrame({"age": [age],"gender": [gender],"height": [height],"weight": [weight],"ap_hi": [systolic],"ap_lo": [diastolic],"cholesterol": [cholesterol],"gluc": [glucose],"smoke": [smoke],"alco": [alcohol],"active": [active]})
 
 
 
 
-person = pd.DataFrame({"age": [age],"gender": [gender],"height": [height],"weight": [weight],"ap_hi": [systolic],"ap_lo": [diastolic],"cholesterol": [cholesterol],"gluc": [glucose],"smoke": [smoke],"alco": [alcohol],"active": [active],"BMI": [BMI],"Obesity": [obesity]})
-
-
-
-
+data_Y = data["cardio"]
 
 # st.write("Your profile")
 if exam == 'Yes':
-	# st.table(person)
-	data_X = data.drop(columns = "cardio")
+	data_X = data.drop(columns = ["cardio","BMI","Obesity"])
+	if 'model_exam' not in st.session_state:
+		st.session_state.model_exam = RandomForestClassifier(max_depth = 9, n_estimators= 350, random_state = 42)
+		st.session_state.model_exam.fit(data_X, data_Y)
+	forest = st.session_state.model_exam
 
 else :
 	exam_var = ["ap_hi","ap_lo","cholesterol","gluc"]
 	data = data.drop(columns = exam_var)
+	data_X = data.drop(columns = ["cardio","BMI","Obesity"])
 	person = person.drop(columns = exam_var)
-	# st.table(person)	
+	if 'model' not in st.session_state:
+		st.session_state.model = RandomForestClassifier(max_depth = 9, n_estimators= 350, random_state = 42)
+		st.session_state.model.fit(data_X, data_Y)
+	forest = st.session_state.model
 
-data_X = data.drop(columns = "cardio")
-data_Y = data["cardio"]
-tree.fit(data_X,data_Y)
+with st.spinner("Calculating risk..."):
+	cardio = forest.predict(person)
+	score = round(forest.score(data_X,data_Y),2)
 
-cardio = tree.predict(person)
-score = round(tree.score(data_X,data_Y),2)
 
-st.write("Using Decision Tree Classifier with max depth of 5, the with training accuracy ",score)
+st.write("Using Random Forest, the with training accuracy ",score)
 if cardio == 0:
 	st.write("You are **NOT** at risk of having cardiovascular disease")
 else:
