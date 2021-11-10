@@ -100,8 +100,6 @@ if "graph" not in st.session_state:
 st.session_state.ax.scatter(x = weight, y = height, color = "red")
 with st.spinner("Plotting BMI Graph ..."):
 	st.pyplot(st.session_state.graph)
-
-
 st.session_state.ax.scatter(x = weight, y = height, color = "gray")
 
 
@@ -116,8 +114,9 @@ data_Y = data["cardio"]
 if exam == 'Yes':
 	data_X = data.drop(columns = ["cardio","BMI","Obesity"])
 	if 'model_exam' not in st.session_state:
-		st.session_state.model_exam = RandomForestClassifier(max_depth = 9, n_estimators= 350, random_state = 42)
-		st.session_state.model_exam.fit(data_X, data_Y)
+		with st.spinner("Initialising Random Forest Classifier with Examinable data"):
+			st.session_state.model_exam = RandomForestClassifier(max_depth = 9, n_estimators= 350, random_state = 42)
+			st.session_state.model_exam.fit(data_X, data_Y)
 	forest = st.session_state.model_exam
 
 else :
@@ -126,8 +125,9 @@ else :
 	data_X = data.drop(columns = ["cardio","BMI","Obesity"])
 	person = person.drop(columns = exam_var)
 	if 'model' not in st.session_state:
-		st.session_state.model = RandomForestClassifier(max_depth = 9, n_estimators= 350, random_state = 42)
-		st.session_state.model.fit(data_X, data_Y)
+		with st.spinner("Initialising Random Forest Classifier without Examinable data"):
+			st.session_state.model = RandomForestClassifier(max_depth = 9, n_estimators= 350, random_state = 42)
+			st.session_state.model.fit(data_X, data_Y)
 	forest = st.session_state.model
 
 with st.spinner("Calculating risk..."):
