@@ -48,7 +48,7 @@ Python Streamlit Application
 ## 2_Model
 - Concepts & Experiment (Using Decision Tree)
 	- Feature Scaling
-	- Train-Test-split
+	- Train Test Split
 	- Confusion Matrix & ROC curve
 	- GridSearchCV & Validation
 
@@ -85,7 +85,6 @@ Streamlit Application Link: https://share.streamlit.io/than-duc-huy/cardiovascul
 
 
 ## Local
-
 To run the streamlit library, install streamlit library
 `pip install streamlit`
 
