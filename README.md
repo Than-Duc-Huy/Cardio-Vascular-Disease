@@ -1,4 +1,4 @@
-# NTU EEE EE0005 2021 Semester 1 Group 8 Mini Project
+# NTU EEE EE0005 2021 Semester 1 EE 06 Group 8 Mini Project
 Github Link: https://github.com/Than-Duc-Huy/Cardiovascular-Disease
 
 This is the work of EE005 Group 8 Mini Project
