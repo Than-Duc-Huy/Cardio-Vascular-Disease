@@ -25,6 +25,7 @@ The Python Notebook files
 
 Python Streamlit Application
 - Main.py : Main page 
+- requirements.txt: libraries requirements for Application to run
 
 Presentation
 - EE0005 Group 8.pptx
@@ -36,58 +37,58 @@ Presentation
 1. Import Libraries
 2. Raw Data
 3. Data Processing
-	3.1 First Glance
-	3.2 Blood Pressure
-		3.2.1 Filter ap_hi, ap_lo
-		3.2.2 Categorize Blood Pressure
-	3.3 Distribution
-		3.3.1 Numerical features
-		3.3.2 Categorical features
+	- 3.1 First Glance
+	- 3.2 Blood Pressure
+		- 3.2.1 Filter ap_hi, ap_lo
+		- 3.2.2 Categorize Blood Pressure
+	- 3.3 Distribution
+		- 3.3.1 Numerical features
+		- 3.3.2 Categorical features
 4. Correlation Exploration
-	4.1 Numerical features
-	4.2 Categorical features
-		4.2.1 Overview
-		4.2.2 Individual
-	4.3 Correlations
-	4.4 Export databp.csv for 2_Model.ipynb
+	- 4.1 Numerical features
+	- 4.2 Categorical features
+		- 4.2.1 Overview
+		- 4.2.2 Individual
+	- 4.3 Correlations
+	- 4.4 Export databp.csv for 2_Model.ipynb
 5. Clustering
-	5.1 Body Mass Index (BMI)
-	5.2 K-means Clustering
-		5.2.1 K-means on Height and Weight
-		5.2.2 K-means on Numerical Features
+	- 5.1 Body Mass Index (BMI)
+	- 5.2 K-means Clustering
+		- 5.2.1 K-means on Height and Weight
+		- 5.2.2 K-means on Numerical Features
 
 
 
 ## 2_Model
 - Use databp.csv exported by 1_Explore.ipynb
 6. Concepts and Experimentation
-	6.1 Feature Scaling
-	6.2 Train Test Split
-	6.3 Metrics: Accuracy, Precision, Recall, F1, ROC, AUC
-	6.4 Grid Search
-	6.5 Cross Validation
+	- 6.1 Feature Scaling
+	- 6.2 Train Test Split
+	- 6.3 Metrics: Accuracy, Precision, Recall, F1, ROC, AUC
+	- 6.4 Grid Search
+	- 6.5 Cross Validation
 
 7. Fine-tune Model
-	7.1 Reprocess the Data (Same as 3_Final_Clean.ipynb)
-	7.2 Distribution, Correlation Check
-	7.3 Prepare
-	7.4 Train Model
-		7.4.1 Train and Evaluate on Train set
-		7.4.2 Evaluate on Test set
+	- 7.1 Reprocess the Data (Same as 3_Final_Clean.ipynb)
+	- 7.2 Distribution, Correlation Check
+	- 7.3 Prepare
+	- 7.4 Train Model
+		- 7.4.1 Train and Evaluate on Train set
+		- 7.4.2 Evaluate on Test set
 
 8. More Classification Models
-	8.1. Random Forest Classifier
-		8.1.1 Train and Evaluate on Training Set
-		8.1.2 Evaluate on Test Set
-	8.2. Gradient Boosting Classifier
-		8.2.1 Train and Evaluate on Training Set
-		8.2.2 Evaluate on Test Set
-	8.3. AdaBoosting Classifier
-		8.3.1 Train and Evaluate on Training Set
-		8.3.2 Evaluate on Test Set
+	- 8.1. Random Forest Classifier
+		- 8.1.1 Train and Evaluate on Training Set
+		- 8.1.2 Evaluate on Test Set
+	- 8.2. Gradient Boosting Classifier
+		- 8.2.1 Train and Evaluate on Training Set
+		- 8.2.2 Evaluate on Test Set
+	- 8.3. AdaBoosting Classifier
+		- 8.3.1 Train and Evaluate on Training Set
+		- 8.3.2 Evaluate on Test Set
 9. Final Decision
-	9.1 Model Decision
-	9.2 Conclusion
+	- 9.1 Model Decision
+	- 9.2 Conclusion
 
 ## 3_Final_Clean
 - Clean the raw data for Application
